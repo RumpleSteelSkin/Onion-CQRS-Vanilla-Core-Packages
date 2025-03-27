@@ -1,0 +1,6 @@
+@VCORE.Presentation_HostAddress = http://localhost:5109
+
+GET {{VCORE.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
