@@ -18,6 +18,8 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
+      <Folder Include="Other\Batchs\" />
+      <Folder Include="Other\Images\" />
     </ItemGroup>
 
     <ItemGroup>
