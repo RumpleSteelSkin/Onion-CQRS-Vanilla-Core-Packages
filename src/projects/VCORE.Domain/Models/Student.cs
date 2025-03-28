@@ -11,6 +11,6 @@ public class Student : Entity<Guid>
     public ICollection<StudentCourse>? StudentCourses { get; set; }
     public ICollection<Grade>? Grades { get; set; }
 
-    public Guid ClassroomId { get; set; }
+    public Guid? ClassroomId { get; set; }
     public Classroom? Classroom { get; set; }
 }

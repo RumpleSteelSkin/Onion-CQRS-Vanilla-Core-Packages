@@ -4,6 +4,8 @@ namespace VCORE.Domain.Models;
 
 public class Grade : Entity<Guid>
 {
+    public required string Name { get; set; }
+    
     public double Score { get; set; }
     public Guid StudentId { get; set; }
     public Student? Student { get; set; }

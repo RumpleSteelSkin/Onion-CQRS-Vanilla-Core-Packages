@@ -9,4 +9,5 @@ public class Course : Entity<Guid>
     public Teacher? Teacher { get; set; }
 
     public ICollection<StudentCourse>? StudentCourses { get; set; }
+    public ICollection<Grade>? Grades { get; set; } 
 }
