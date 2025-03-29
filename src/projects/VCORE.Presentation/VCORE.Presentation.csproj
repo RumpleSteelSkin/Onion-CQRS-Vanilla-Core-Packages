@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.4.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
@@ -23,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\cores\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj" />
       <ProjectReference Include="..\VCORE.Domain\VCORE.Domain.csproj" />
       <ProjectReference Include="..\VCORE.Persistence\VCORE.Persistence.csproj" />
     </ItemGroup>

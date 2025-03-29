@@ -7,7 +7,73 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VCORE.Domain\VCORE.Domain.csproj" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0"/>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+    </ItemGroup>
+  
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\cores\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj" />
+        <ProjectReference Include="..\VCORE.Domain\VCORE.Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Features\Authentication\Commands\Create\" />
+        <Folder Include="Features\Authentication\Commands\Delete\" />
+        <Folder Include="Features\Authentication\Commands\Update\" />
+        <Folder Include="Features\Authentication\Profiles\"/>
+        <Folder Include="Features\Authentication\Queries\"/>
+        <Folder Include="Features\Authentication\Rules\"/>
+        <Folder Include="Features\Classrooms\Commands\Create\" />
+        <Folder Include="Features\Classrooms\Commands\Delete\" />
+        <Folder Include="Features\Classrooms\Commands\Update\" />
+        <Folder Include="Features\Classrooms\Profiles\"/>
+        <Folder Include="Features\Classrooms\Queries\"/>
+        <Folder Include="Features\Classrooms\Rules\"/>
+        <Folder Include="Features\Courses\Commands\Create\" />
+        <Folder Include="Features\Courses\Commands\Delete\" />
+        <Folder Include="Features\Courses\Commands\Update\" />
+        <Folder Include="Features\Courses\Profiles\"/>
+        <Folder Include="Features\Courses\Queries\"/>
+        <Folder Include="Features\Courses\Rules\"/>
+        <Folder Include="Features\Grades\Commands\Create\" />
+        <Folder Include="Features\Grades\Commands\Delete\" />
+        <Folder Include="Features\Grades\Commands\Update\" />
+        <Folder Include="Features\Grades\Profiles\"/>
+        <Folder Include="Features\Grades\Queries\"/>
+        <Folder Include="Features\Grades\Rules\"/>
+        <Folder Include="Features\Roles\Commands\Create\" />
+        <Folder Include="Features\Roles\Commands\Delete\" />
+        <Folder Include="Features\Roles\Commands\Update\" />
+        <Folder Include="Features\Roles\Profiles\"/>
+        <Folder Include="Features\Roles\Queries\"/>
+        <Folder Include="Features\Roles\Rules\"/>
+        <Folder Include="Features\StudentCourses\Commands\Create\" />
+        <Folder Include="Features\StudentCourses\Commands\Delete\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Commands\Create\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Commands\Delete\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Commands\Update\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Profiles\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Queries\" />
+        <Folder Include="Features\StudentCourses\Commands\Roles\Rules\" />
+        <Folder Include="Features\StudentCourses\Commands\Update\" />
+        <Folder Include="Features\StudentCourses\Profiles\"/>
+        <Folder Include="Features\StudentCourses\Queries\"/>
+        <Folder Include="Features\StudentCourses\Rules\"/>
+        <Folder Include="Features\Students\Commands\Create\" />
+        <Folder Include="Features\Students\Commands\Delete\" />
+        <Folder Include="Features\Students\Commands\Update\" />
+        <Folder Include="Features\Students\Profiles\"/>
+        <Folder Include="Features\Students\Queries\"/>
+        <Folder Include="Features\Students\Rules\"/>
+        <Folder Include="Features\Teachers\Rules\"/>
+        <Folder Include="Features\UserRoles\Commands\Create\" />
+        <Folder Include="Features\UserRoles\Commands\Delete\" />
+        <Folder Include="Features\UserRoles\Commands\Update\" />
+        <Folder Include="Features\UserRoles\Profiles\"/>
+        <Folder Include="Features\UserRoles\Queries\"/>
+        <Folder Include="Features\UserRoles\Rules\"/>
     </ItemGroup>
 
 </Project>

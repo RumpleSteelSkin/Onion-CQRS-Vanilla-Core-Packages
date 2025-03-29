@@ -14,7 +14,7 @@ public static class ServiceRegistration
     {
         //Microsoft.EntityFrameworkCore
         services.AddDbContext<BaseDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(configuration.GetConnectionString("Home")));
         
         //Repository Interface Define
         services.AddScoped<IClassroomRepository, ClassroomRepository>();

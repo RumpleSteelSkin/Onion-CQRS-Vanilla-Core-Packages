@@ -1,3 +1,4 @@
+using VCORE.Application.Extensions;
 using VCORE.Persistence.Extensions;
 using VCORE.Presentation.Extensions;
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
   ################################*/
 //----------------------------------------------
 builder.Services.AddPresentationServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 //----------------------------------------------

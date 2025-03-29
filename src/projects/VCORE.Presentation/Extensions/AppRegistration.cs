@@ -9,6 +9,8 @@ public static class AppRegistration
         
         app.UseAuthorization();
         
+        app.UseExceptionHandler(_ => { });
+        
         app.MapControllers();
         
         app.Run();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Core.CrossCuttingConcerns.Exceptions.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using VCORE.Domain.Models;
 using VCORE.Persistence.Contexts;
 
@@ -22,7 +23,7 @@ public static class ServiceRegistration
             opt.Password.RequiredLength = 8;
         }).AddEntityFrameworkStores<BaseDbContext>().AddDefaultTokenProviders();
         
-        
+        services.AddExceptionHandler<HttpExceptionHandler>();
         
         return services;
     }
