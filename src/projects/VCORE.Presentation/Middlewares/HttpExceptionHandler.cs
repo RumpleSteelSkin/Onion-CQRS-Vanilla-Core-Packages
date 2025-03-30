@@ -2,9 +2,8 @@
 using Core.CrossCuttingConcerns.Exceptions.ExceptionTypes;
 using Core.CrossCuttingConcerns.Exceptions.HttpProblemDetails;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 
-namespace Core.CrossCuttingConcerns.Exceptions.Middlewares;
+namespace VCORE.Presentation.Middlewares;
 
 public class HttpExceptionHandler : IExceptionHandler
 {

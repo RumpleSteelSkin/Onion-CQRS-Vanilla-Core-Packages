@@ -14,14 +14,12 @@
   
 
     <ItemGroup>
+        <ProjectReference Include="..\..\cores\Core.Application\Core.Application.csproj" />
         <ProjectReference Include="..\..\cores\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj" />
         <ProjectReference Include="..\VCORE.Domain\VCORE.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\Authentication\Commands\Create\" />
-        <Folder Include="Features\Authentication\Commands\Delete\" />
-        <Folder Include="Features\Authentication\Commands\Update\" />
         <Folder Include="Features\Authentication\Profiles\"/>
         <Folder Include="Features\Authentication\Queries\"/>
         <Folder Include="Features\Authentication\Rules\"/>
