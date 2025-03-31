@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Performance;
+using Core.CrossCuttingConcerns.Loggers.Serilog.Loggers;
+using Core.CrossCuttingConcerns.Loggers.Serilog.ServiceBase;
 using Microsoft.Extensions.DependencyInjection;
 using VCORE.Application.Services.JwtServices;
 
@@ -11,11 +14,20 @@ public static class ServiceRegistration
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         #region AutoMapper Services
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         #endregion
 
         #region JWT Services
+
         services.AddScoped<IJwtService, JwtService>();
+
+        #endregion
+
+        #region Serilog Services
+        services.AddTransient<LoggerService, MsSqlLogger>();
+        // services.AddTransient<LoggerService, FileLogger>();
         #endregion
 
         #region MediatR Services
@@ -26,10 +38,11 @@ public static class ServiceRegistration
             //Pipeline Registration
             opt.AddOpenBehavior(typeof(PerformancePipeline<,>));
             opt.AddOpenBehavior(typeof(AuthorizationPipeline<,>));
+            opt.AddOpenBehavior(typeof(LoggingPipeline<,>));
         });
 
         #endregion
-        
+
         return services;
     }
 }
