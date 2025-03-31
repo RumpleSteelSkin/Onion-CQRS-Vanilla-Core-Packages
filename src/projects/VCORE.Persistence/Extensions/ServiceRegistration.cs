@@ -12,18 +12,24 @@ public static class ServiceRegistration
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        #region Entity Framework Services
+
         //Microsoft.EntityFrameworkCore
         services.AddDbContext<BaseDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Home")));
-        
-        //Repository Interface Define
+
+        #endregion
+
+        #region Repository Interface Define
+
         services.AddScoped<IClassroomRepository, ClassroomRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IGradeRepository, GradeRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IStudentCourseRepository, StudentCourseRepository>();
-        
+
+        #endregion
         
         return services;
     }

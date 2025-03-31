@@ -7,7 +7,7 @@ public static class AppRegistration
         app.UseExceptionHandler(_ => { });//First Place "Always"
         
         if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
-
+        
         //Warning: Priority...
         app.UseAuthentication();//1st
         app.UseAuthorization();//2nd

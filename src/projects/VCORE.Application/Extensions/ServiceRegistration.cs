@@ -10,8 +10,16 @@ public static class ServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        #region AutoMapper Services
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        #endregion
+
+        #region JWT Services
         services.AddScoped<IJwtService, JwtService>();
+        #endregion
+
+        #region MediatR Services
+
         services.AddMediatR(opt =>
         {
             opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
@@ -20,6 +28,8 @@ public static class ServiceRegistration
             opt.AddOpenBehavior(typeof(AuthorizationPipeline<,>));
         });
 
+        #endregion
+        
         return services;
     }
 }

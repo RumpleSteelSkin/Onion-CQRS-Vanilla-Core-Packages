@@ -14,11 +14,16 @@ public static class ServiceRegistration
     public static IServiceCollection AddPresentationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        #region Default Services
+
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        //JWT Token Config
+        #endregion
+        
+        #region JWT Token Services
+
         services.Configure<CustomTokenOptions>(configuration.GetSection("TokenOptions"));
 
         services.AddIdentity<User, IdentityRole<Guid>>(opt =>
@@ -49,9 +54,12 @@ public static class ServiceRegistration
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOption.SecurityKey ?? "Null"))
                 };
         });
+
+        #endregion
         
-        //Global exception handling
+        #region Global Exception Handling Services
         services.AddExceptionHandler<HttpExceptionHandler>();
+        #endregion
 
         return services;
     }
