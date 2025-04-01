@@ -21,44 +21,64 @@ public static class ServiceRegistration
         services.AddSwaggerGen();
 
         #endregion
-        
+
         #region JWT Token Services
 
         services.Configure<CustomTokenOptions>(configuration.GetSection("TokenOptions"));
 
         services.AddIdentity<User, IdentityRole<Guid>>(opt =>
-        {
-            opt.User.RequireUniqueEmail = true;
-            opt.Password.RequireNonAlphanumeric = false;
-            opt.Password.RequiredLength = 8;
-        }).AddEntityFrameworkStores<BaseDbContext>().AddDefaultTokenProviders();
+            {
+                opt.User.RequireUniqueEmail = true;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredLength = 8;
+            })
+            .AddEntityFrameworkStores<BaseDbContext>()
+            .AddDefaultTokenProviders();
 
+        var tokenOptions = configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
 
-        var tokenOption = configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
+        if (tokenOptions is null || string.IsNullOrEmpty(tokenOptions.SecurityKey))
+            throw new InvalidOperationException("JWT SecurityKey cannot be null or empty!");
+
+        if (tokenOptions.Audience is null || tokenOptions.Audience.Count == 0)
+            throw new InvalidOperationException("JWT Audience cannot be null or empty!");
+
         services.AddAuthentication(opt =>
-        {
-            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
-        {
-            if (tokenOption != null)
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+            {
                 opt.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = tokenOption.Issuer,
-                    ValidAudience = tokenOption.Audience?[0],
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience[0],
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOption.SecurityKey ?? "Null"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey))
                 };
+            });
+
+        #endregion
+
+        #region Redis Services
+
+        var redisConfig = configuration.GetSection("RedisConfigurations");
+        services.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = redisConfig["CacheIP"];
+            opt.InstanceName = redisConfig["InstanceName"];
         });
 
         #endregion
-        
+
         #region Global Exception Handling Services
+
         services.AddExceptionHandler<HttpExceptionHandler>();
+
         #endregion
 
         return services;
