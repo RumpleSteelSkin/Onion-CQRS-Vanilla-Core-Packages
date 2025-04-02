@@ -16,7 +16,7 @@ public static class ServiceRegistration
 
         //Microsoft.EntityFrameworkCore
         services.AddDbContext<BaseDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("BasakSehir")));
+                options.UseSqlServer(configuration.GetConnectionString("Home")));
 
         #endregion
 

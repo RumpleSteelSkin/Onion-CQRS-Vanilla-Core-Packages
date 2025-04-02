@@ -9,7 +9,6 @@ using Core.CrossCuttingConcerns.Loggers.Serilog.ServiceBase;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using VCORE.Application.Services.JwtServices;
-using VCORE.Application.Services.RedisServices;
 
 namespace VCORE.Application.Extensions;
 
@@ -17,12 +16,6 @@ public static class ServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        #region Redis Services
-
-        services.AddScoped<IRedisService, RedisCacheService>();
-
-        #endregion
-
         #region AutoMapper Services
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -55,11 +48,12 @@ public static class ServiceRegistration
             opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
             //Pipeline Registration
-            opt.AddOpenBehavior(typeof(PerformancePipeline<,>));
-            opt.AddOpenBehavior(typeof(AuthorizationPipeline<,>));
-            opt.AddOpenBehavior(typeof(LoggingPipeline<,>));
             opt.AddOpenBehavior(typeof(ValidationPipeline<,>));
+            opt.AddOpenBehavior(typeof(AuthorizationPipeline<,>));
+            opt.AddOpenBehavior(typeof(PerformancePipeline<,>));
+            opt.AddOpenBehavior(typeof(LoggingPipeline<,>));
             opt.AddOpenBehavior(typeof(CacheRemovePipeline<,>));
+            opt.AddOpenBehavior(typeof(AddCachePipeline<,>));
         });
 
         #endregion

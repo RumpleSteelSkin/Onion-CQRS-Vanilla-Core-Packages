@@ -1,36 +1,73 @@
-﻿using System.Text;
-using System.Text.Json;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
-namespace Core.Application.Pipelines.Caching;
-
-public class CacheRemovePipeline<TRequest, TResponse>(IDistributedCache cache) : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>, ICacheRemoverRequest
+namespace Core.Application.Pipelines.Caching
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+    /// <summary>
+    /// MediatR pipeline behavior'ı: İstek sonrası ilgili cache anahtarlarını temizler.
+    /// </summary>
+    public class CacheRemovePipeline<TRequest, TResponse>(IDistributedCache cache, IConfiguration configuration)
+        : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>, ICacheRemoverRequest
     {
-        if (request.BypassCache)
-            return await next();
-
-        if (request.CacheGroupKey is not null)
+        public async Task<TResponse> Handle(
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken)
         {
-            byte[]? cachedGroup = await cache.GetAsync(request.CacheGroupKey, cancellationToken);
-            if (cachedGroup is not null)
+            // Cache bypass kontrolü
+            if (configuration.GetSection("RedisConfigurations:ByPassCache").Get<bool>())
             {
-                HashSet<string>? keysInGroup =
-                    JsonSerializer.Deserialize<HashSet<string>>(Encoding.UTF8.GetString(cachedGroup));
-                if (keysInGroup != null)
-                    foreach (var key in keysInGroup)
-                        await cache.RemoveAsync(key, cancellationToken);
-                await cache.RemoveAsync(request.CacheGroupKey, cancellationToken);
+                return await next();
             }
+
+
+            // Handler'ı çalıştır ve yanıtı al
+            TResponse response = await next();
+
+            // Grup bazlı cache temizleme
+            if (request.CacheGroupKey is not null)
+            {
+                await RemoveCacheGroupAsync(request.CacheGroupKey, cancellationToken);
+            }
+
+            // Bireysel cache anahtarını temizle
+            if (!string.IsNullOrEmpty(request.CacheKey))
+            {
+                await cache.RemoveAsync(request.CacheKey, cancellationToken);
+            }
+
+            return response;
         }
 
-        if (request.CacheKey is not null)
-            await cache.RemoveAsync(request.CacheKey, cancellationToken);
+        /// <summary>
+        /// Belirtilen grup anahtarına ait tüm cache anahtarlarını kaldırır.
+        /// </summary>
+        private async Task RemoveCacheGroupAsync(string cacheGroupKey, CancellationToken cancellationToken)
+        {
+            byte[]? cachedGroupBytes = await cache.GetAsync(cacheGroupKey, cancellationToken);
+            if (cachedGroupBytes is not null)
+            {
+                HashSet<string> keysInGroup =
+                    JsonSerializer.Deserialize<HashSet<string>>(Encoding.UTF8.GetString(cachedGroupBytes))
+                    ?? new HashSet<string>();
 
-        return await next();
+                // Grup içerisindeki her anahtar için cache'i temizle
+                foreach (var key in keysInGroup)
+                {
+                    await cache.RemoveAsync(key, cancellationToken);
+                }
+
+                // Grup anahtarını da temizle
+                await cache.RemoveAsync(cacheGroupKey, cancellationToken);
+
+                // Opsiyonel: Grup expiration bilgisini tutan anahtarı da kaldır
+                string slidingExpirationKey = $"{cacheGroupKey}:SlidingExpiration";
+                await cache.RemoveAsync(slidingExpirationKey, cancellationToken);
+            }
+        }
     }
 }

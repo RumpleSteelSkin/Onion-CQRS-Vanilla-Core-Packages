@@ -1,8 +1,8 @@
-﻿namespace Core.Application.Pipelines.Caching;
-
-public interface ICacheRemoverRequest
+﻿namespace Core.Application.Pipelines.Caching
 {
-    string? CacheKey { get; }
-    bool BypassCache { get; }
-    string? CacheGroupKey { get; }
+    public interface ICacheRemoverRequest
+    {
+        string? CacheKey { get; }
+        string? CacheGroupKey { get; }
+    }
 }
