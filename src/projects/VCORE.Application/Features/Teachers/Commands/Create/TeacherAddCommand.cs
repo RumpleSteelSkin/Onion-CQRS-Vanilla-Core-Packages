@@ -12,7 +12,7 @@ public class TeacherAddCommand : IRequest<string>, IRoleExists
     public required string LastName { get; set; }
     public DateTime HireDate { get; set; }
     public string[] Roles { get; } = [GeneralOperationClaims.Admin];
-    public string? CacheKey => null;
-    public bool BypassCache => false;
-    public string? CacheGroupKey => "Teachers";
+    // private string? CacheKey => null;
+    // private bool BypassCache => false;
+    // private string? CacheGroupKey => "Teachers";
 }

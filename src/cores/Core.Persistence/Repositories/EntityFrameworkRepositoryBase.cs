@@ -165,6 +165,23 @@ public class EntityFrameworkRepositoryBase<TEntity, TId, TContext>(TContext cont
             cancellationToken: cancellationToken);
     }
 
+    public async Task<ICollection<TEntity?>> GetByIdsAsync(ICollection<TId>? ids, bool ignoreQueryFilters = false,
+        bool enableTracking = true, bool include = true,
+        CancellationToken cancellationToken = default)
+    {
+        if (ids == null || ids.Count == 0)
+            return new List<TEntity?>();
+        IQueryable<TEntity> query = context.Set<TEntity>();
+        if (!enableTracking)
+            query = query.AsNoTracking();
+        if (!include)
+            query = query.IgnoreAutoIncludes();
+        if (ignoreQueryFilters)
+            query = query.IgnoreQueryFilters();
+        query = query.Where(x => ids.Contains(x.Id));
+        return (await query.ToListAsync(cancellationToken: cancellationToken))!;
+    }
+
     public async Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null, bool ignoreQueryFilters = false,
         bool include = true,
         CancellationToken cancellationToken = default)

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using VCORE.Application.Features.Teachers.Commands.Create;
+using VCORE.Application.Features.Teachers.Commands.CreateRange;
 using VCORE.Application.Features.Teachers.Commands.Update;
+using VCORE.Application.Features.Teachers.Commands.UpdateRange;
 using VCORE.Application.Features.Teachers.Queries.GetAll;
 using VCORE.Application.Features.Teachers.Queries.GetById;
 using VCORE.Domain.Models;
@@ -13,8 +15,16 @@ public class TeachersMapper : Profile
     {
         CreateMap<TeacherAddCommand, Teacher>();
         CreateMap<TeacherUpdateCommand, Teacher>();
-        
+        CreateMap<TeacherAddRangeRequestDto, Teacher>();
+        CreateMap<TeacherUpdateRangeRequestDto, Teacher>();
+
         CreateMap<Teacher, TeacherGetAllResponseDto>();
         CreateMap<Teacher, TeacherGetByIdResponseDto>();
+        
+        CreateMap<Teacher, Teacher>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => src.HireDate));
     }
 }

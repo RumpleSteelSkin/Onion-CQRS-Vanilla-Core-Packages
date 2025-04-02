@@ -43,6 +43,11 @@ public interface IAsyncRepository<TEntity, TId> where TEntity : Entity<TId>
         bool include = true,
         CancellationToken cancellationToken = default);
 
+    Task<ICollection<TEntity?>> GetByIdsAsync(ICollection<TId>? ids, bool ignoreQueryFilters = false,
+        bool enableTracking = true,
+        bool include = true,
+        CancellationToken cancellationToken = default);
+
     Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null, bool ignoreQueryFilters = false,
         bool include = true,
         CancellationToken cancellationToken = default);
