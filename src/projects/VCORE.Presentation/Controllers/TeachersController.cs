@@ -4,6 +4,7 @@ using VCORE.Application.Features.Teachers.Commands.Create;
 using VCORE.Application.Features.Teachers.Commands.CreateRange;
 using VCORE.Application.Features.Teachers.Commands.Delete;
 using VCORE.Application.Features.Teachers.Commands.DeleteRange;
+using VCORE.Application.Features.Teachers.Commands.Generator;
 using VCORE.Application.Features.Teachers.Commands.HardDelete;
 using VCORE.Application.Features.Teachers.Commands.HardDeleteRange;
 using VCORE.Application.Features.Teachers.Commands.Update;
@@ -21,6 +22,12 @@ namespace VCORE.Presentation.Controllers
     [ApiController]
     public class TeachersController(IMediator mediator) : ControllerBase
     {
+        [HttpPost("Generate")]
+        public async Task<IActionResult> Generate(TeacherGeneratorCommand command)
+        {
+            return Ok(await mediator.Send(command));
+        }
+        
         [HttpPost("Add")]
         public async Task<IActionResult> Add(TeacherAddCommand command)
         {

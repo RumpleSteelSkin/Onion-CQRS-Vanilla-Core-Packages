@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Bogus;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
@@ -41,6 +42,12 @@ public static class ServiceRegistration
 
         #endregion
 
+        #region Bogus Services
+
+        services.AddScoped(typeof(Faker<>));
+
+        #endregion
+
         #region MediatR Services
 
         services.AddMediatR(opt =>
@@ -57,6 +64,7 @@ public static class ServiceRegistration
         });
 
         #endregion
+
 
         return services;
     }

@@ -18,7 +18,7 @@ public class TeachersMapper : Profile
     {
         CreateMap<TeacherAddCommand, Teacher>();
         CreateMap<TeacherUpdateCommand, Teacher>();
-        CreateMap<TeacherAddRangeRequestDto, Teacher>();
+        CreateMap<TeacherAddRangeRequestDto, Teacher>().ReverseMap();
         CreateMap<TeacherUpdateRangeRequestDto, Teacher>();
 
         CreateMap<Teacher, TeacherGetAllResponseDto>();
