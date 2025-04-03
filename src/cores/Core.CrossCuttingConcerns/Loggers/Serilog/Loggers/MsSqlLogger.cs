@@ -14,7 +14,9 @@ public class MsSqlLogger : LoggerService
         MsSqlConfiguration? logConfig = configuration.GetSection("SerilogLogConfigurations:MsSqlConfiguration")
             .Get<MsSqlConfiguration>();
 
-        if (logConfig?.ConnectionStrings == null || !logConfig.ConnectionStrings.TryGetValue("Home", out string? value))
+        if (logConfig?.ConnectionStrings == null ||
+            !logConfig.ConnectionStrings.TryGetValue(
+                configuration.GetSection("ConnectionStringsSelector").Get<string>()!, out string? value))
             throw new NotFoundException("MsSqlConfiguration not found!");
 
         Logger = new LoggerConfiguration().WriteTo.MSSqlServer(connectionString: value,

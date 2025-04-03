@@ -69,7 +69,7 @@ public static class ServiceRegistration
         var redisConfig = configuration.GetSection("RedisConfigurations");
         services.AddStackExchangeRedisCache(opt =>
         {
-            opt.Configuration = redisConfig["CacheIP"];
+            opt.Configuration = redisConfig[configuration.GetSection("ConnectionStringsSelector").Get<string>()!];
             opt.InstanceName = redisConfig["InstanceName"];
         });
 

@@ -62,8 +62,6 @@
         <Folder Include="Features\Students\Profiles\"/>
         <Folder Include="Features\Students\Queries\"/>
         <Folder Include="Features\Students\Rules\"/>
-        <Folder Include="Features\Teachers\Queries\GetByName\" />
-        <Folder Include="Features\Teachers\Queries\GetCount\" />
         <Folder Include="Features\Teachers\Rules\"/>
         <Folder Include="Features\UserRoles\Commands\Delete\" />
         <Folder Include="Features\UserRoles\Commands\Update\" />

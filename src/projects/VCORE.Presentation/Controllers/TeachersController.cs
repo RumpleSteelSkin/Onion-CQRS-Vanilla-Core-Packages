@@ -9,7 +9,11 @@ using VCORE.Application.Features.Teachers.Commands.HardDeleteRange;
 using VCORE.Application.Features.Teachers.Commands.Update;
 using VCORE.Application.Features.Teachers.Commands.UpdateRange;
 using VCORE.Application.Features.Teachers.Queries.GetAll;
+using VCORE.Application.Features.Teachers.Queries.GetAllDetail;
 using VCORE.Application.Features.Teachers.Queries.GetById;
+using VCORE.Application.Features.Teachers.Queries.GetByName;
+using VCORE.Application.Features.Teachers.Queries.GetCount;
+using VCORE.Application.Features.Teachers.Queries.GetDetailById;
 
 namespace VCORE.Presentation.Controllers
 {
@@ -75,6 +79,30 @@ namespace VCORE.Presentation.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             return Ok(await mediator.Send(new TeacherGetByIdQuery() { Id = id }));
+        }
+
+        [HttpGet("GetAllDetail")]
+        public async Task<IActionResult> GetAllDetail()
+        {
+            return Ok(await mediator.Send(new TeacherGetAllDetailQuery()));
+        }
+
+        [HttpGet("GetByName")]
+        public async Task<IActionResult> GetByName(string fullName)
+        {
+            return Ok(await mediator.Send(new TeacherGetByNameQuery() { FullName = fullName }));
+        }
+
+        [HttpGet("GetCount")]
+        public async Task<IActionResult> GetByName()
+        {
+            return Ok(await mediator.Send(new TeacherGetCountQuery()));
+        }
+
+        [HttpGet("GetDetailById")]
+        public async Task<IActionResult> GetDetailById(Guid id)
+        {
+            return Ok(await mediator.Send(new TeacherGetDetailByIdQuery() { Id = id }));
         }
     }
 }
